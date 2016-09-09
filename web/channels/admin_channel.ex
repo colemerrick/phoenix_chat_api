@@ -4,10 +4,11 @@ defmodule PhoenixChat.AdminChannel do
   """
 
   use PhoenixChat.Web, :channel
-  require Logger
+  # require Logger
 
-  alias PhoenixChat.{Presence}
+  alias PhoenixChat.{Presence, LobbyList}
 
+  intercept ~w(lobby_list)
   @doc """
   The `admin:active_users` topic is how we identify all users currently using the app.
   """
@@ -23,11 +24,23 @@ defmodule PhoenixChat.AdminChannel do
   """
   def handle_info(:after_join, socket) do
     push socket, "presence_state", Presence.list(socket)
-    Logger.debug "Presence for socket: #{inspect socket}"
+    # Logger.debug "Presence for socket: #{inspect socket}"
     id = socket.assigns.user_id || socket.assigns.uuid
+
+    LobbyList.insert(id)
+    broadcast! socket, "lobby_list", %{uuid: id}
+
     {:ok, _} = Presence.track(socket, id, %{
       online_at: inspect(System.system_time(:seconds))
     })
     {:noreply, socket}
   end
+
+  def handle_out("lobby_list", payload, socket) do
+    if socket.assigns.user_id do
+      push socket, "lobby_list", payload
+    end
+    {:noreply, socket}
+  end
+  
 end
