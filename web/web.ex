@@ -69,6 +69,7 @@ defmodule PhoenixChat.Web do
       import Ecto
       import Ecto.Query
       import PhoenixChat.Gettext
+      import PhoenixChat.ChannelHelpers
     end
   end
 
