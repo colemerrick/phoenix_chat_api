@@ -21,11 +21,20 @@ defmodule PhoenixChat.UserSocket do
   # See `Phoenix.Token` documentation for examples in
   # performing token verification on connect.
   def connect(params, socket) do
-    socket = socket
-      |> assign(:user_id, params["id"])
-      |> assign(:username, params["username"])
-      |> assign(:email, params["email"])
-      |> assign(:uuid, params["uuid"])
+    user_id = params["id"]
+    user = user_id && Repo.get(User, user_id)
+
+    socket = if user do
+      socket
+        |> assign(:user_id, user_id)
+        |> assign(:username, user.username)
+        |> assign(:email, user.email)
+      else
+        socket
+          |> assign(:user_id, nil)
+          |> assign(:uuid, params["uuid"])
+      end
+
     {:ok, socket}
   end
 
