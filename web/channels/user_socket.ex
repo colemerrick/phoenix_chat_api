@@ -1,4 +1,7 @@
 defmodule PhoenixChat.UserSocket do
+
+  alias PhoenixChat.{Repo, User}
+  
   use Phoenix.Socket
 
   ## Channels
