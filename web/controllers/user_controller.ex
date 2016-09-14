@@ -15,6 +15,8 @@ defmodule PhoenixChat.UserController do
       {:ok, user} ->
         {:ok, token, _claims} = Guardian.encode_and_sign(user, :token)
 
+        send_welcome_email(user)
+
         conn
         |> put_status(:created)
         |> put_resp_header("location", user_path(conn, :show, user))
@@ -54,4 +56,11 @@ defmodule PhoenixChat.UserController do
 
     send_resp(conn, :no_content, "")
   end
+
+  defp send_welcome_email(user) do 
+    user
+    |> Email.welcome_email
+    |> Mailer.deliver_later
+  end
+
 end

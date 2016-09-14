@@ -18,7 +18,7 @@ defmodule PhoenixChat.Mixfile do
   # Type `mix help compile.app` for more information.
   def application do
     [mod: {PhoenixChat, []},
-     applications: [:comeonin, :phoenix, :phoenix_pubsub, :phoenix_html, :cowboy, :logger, :gettext,
+     applications: [:bamboo, :comeonin, :phoenix, :phoenix_pubsub, :phoenix_html, :cowboy, :logger, :gettext,
                     :phoenix_ecto, :postgrex, :ueberauth, :ueberauth_identity]]
   end
 
@@ -30,7 +30,8 @@ defmodule PhoenixChat.Mixfile do
   #
   # Type `mix help deps` for examples and options.
   defp deps do
-    [{:comeonin, "~> 2.3"},
+    [{:bamboo, "~> 0.7"},
+     {:comeonin, "~> 2.3"},
      {:corsica, "~> 0.4"},
      {:phoenix, "~> 1.2.1"},
      {:phoenix_pubsub, "~> 1.0"},

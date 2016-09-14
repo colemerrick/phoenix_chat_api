@@ -40,3 +40,7 @@ config :phoenix_chat, PhoenixChat.Repo,
   database: "phoenix_chat_dev",
   hostname: "localhost",
   pool_size: 10
+
+
+config :phoenix_chat, PhoenixChat.Mailer,
+  adapter: Bamboo.LocalAdapter

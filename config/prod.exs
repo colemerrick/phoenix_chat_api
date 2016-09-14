@@ -19,6 +19,12 @@ config :phoenix_chat, PhoenixChat.Endpoint,
 # Do not print debug messages in production
 config :logger, level: :info
 
+config :phoenix_chat, PhoenixChat.Mailer,
+  adapter: Bamboo.MailgunAdapter,
+  api_key: System.get_env("MAILGUN_API_KEY"),
+  domain: System.get_env("MAILGUN_DOMAIN")
+
+  
 # ## SSL Support
 #
 # To get SSL working, you will need to add the `https` key
