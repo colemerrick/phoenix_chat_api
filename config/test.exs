@@ -20,3 +20,6 @@ config :phoenix_chat, PhoenixChat.Repo,
 
 config :phoenix_chat, PhoenixChat.Mailer,
   adapter: Bamboo.TestAdapter
+
+config :comeonin, :bcrypt_log_rounds, 4
+config :comeonin, :pbkdf2_rounds, 1
