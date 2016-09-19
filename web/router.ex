@@ -32,6 +32,7 @@ defmodule PhoenixChat.Router do
     pipe_through :api
 
     resources "/users", UserController, except: [:new, :edit]
+    resources "/organizations", OrganizationController, except: [:new, :edit]
   end
 
   scope "/auth", PhoenixChat do
