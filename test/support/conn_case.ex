@@ -48,7 +48,9 @@ defmodule PhoenixChat.ConnCase do
   end
 
   def create_user!() do
-    Repo.insert! %User{username: "foo", email: "foo@bar.com"}
+    # Repo.insert! %User{username: "foo", email: "foo@bar.com"}
+    # coles fix below...
+    Repo.insert! %User{username: "foo", email: "foo@bar.com", password: "helloworld"}
   end
 
   def create_user!(attrs) do

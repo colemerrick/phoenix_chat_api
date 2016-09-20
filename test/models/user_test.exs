@@ -1,11 +1,27 @@
 defmodule PhoenixChat.UserTest do
   use PhoenixChat.ModelCase
 
-  alias PhoenixChat.User
+  alias PhoenixChat.{User, Organization, ConnCase}
 
   @valid_attrs %{email: "foo@bar.com", encrypted_password: "some content", username: "some content"}
   @invalid_attrs %{}
 
+  test "user can own an organization" do
+    user = ConnCase.create_user!
+    org  = Repo.insert! %Organization{website: "foo.com", owner_id: user.id, public_key: "test"}
+    user = Repo.preload(user, :owned_organization)
+
+    assert user.owned_organization == org
+  end
+
+  test "user belongs to organization" do
+    org  = Repo.insert! %Organization{website: "foo.com", public_key: "test"}
+    user = ConnCase.create_user!(%{organization_id: org.id})
+           |> Repo.preload(:organization)
+
+    assert user.organization == org
+  end
+  
   test "changeset with valid attributes" do
     changeset = User.changeset(%User{}, @valid_attrs)
     assert changeset.valid?

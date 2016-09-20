@@ -1,5 +1,6 @@
 defmodule PhoenixChat.User do
   use PhoenixChat.Web, :model
+  alias PhoenixChat.Organization
 
   schema "users" do
     field :email, :string
@@ -7,6 +8,9 @@ defmodule PhoenixChat.User do
     field :username, :string
     field :password, :string, virtual: true
 
+    has_one :owned_organization, Organization, foreign_key: :owner_id
+    belongs_to :organization, Organization
+    
     timestamps()
   end
 

@@ -1,7 +1,7 @@
 defmodule PhoenixChat.UserController do
   use PhoenixChat.Web, :controller
 
-  alias PhoenixChat.User
+  alias PhoenixChat.{User, Mailer, Email}
 
   def index(conn, _params) do
     users = Repo.all(User)
