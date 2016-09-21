@@ -38,6 +38,12 @@ defmodule PhoenixChat.OrganizationTest do
   end
 
 
+  test "owner changeset does not require an owner id" do
+    changeset = Organization.owner_changeset(%Organization{}, %{website: "foo.com"})
+    assert changeset.valid?
+  end
+
+  
 
   test "changeset with valid attributes" do
     changeset = Organization.changeset(%Organization{}, @valid_attrs)
