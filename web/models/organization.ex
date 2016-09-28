@@ -21,6 +21,7 @@ defmodule PhoenixChat.Organization do
     struct
     |> cast(params, [:website, :owner_id])
     |> validate_required(required_fields)
+    |> validate_change(:owner_id, &validate_new_owner_admin/2)
     |> update_change(:website, &set_uri_scheme/1)
     |> validate_change(:website, &validate_website/2)
     |> unique_constraint(:website)
@@ -35,7 +36,21 @@ defmodule PhoenixChat.Organization do
   def owner_changeset(struct, params \\ %{}) do
     changeset(struct, params, true)
   end
-  
+
+
+
+  defp validate_new_owner_admin(:owner_id, owner_id) do
+    user = Repo.get! User, owner_id
+    org = Repo.preload(user, :organization).organization || Repo.preload(user, :owned_organization).owned_organization
+
+    if org do
+      [owner_id: "user is owner or admin of existing organiation"]
+    else
+      []
+    end
+  end
+
+
 
   defp put_public_key(%{data: data} = changeset) do
     if changeset.valid? && !data.id do

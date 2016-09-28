@@ -43,7 +43,7 @@ defmodule PhoenixChat.OrganizationTest do
     assert changeset.valid?
   end
 
-  
+
 
   test "changeset with valid attributes" do
     changeset = Organization.changeset(%Organization{}, @valid_attrs)
